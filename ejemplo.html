@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Probar el portal del museo</title>
+  <style>
+    body { margin: 0; font: 1rem/1.6 system-ui, sans-serif; color: #162b2e; background: #eff1ea; }
+    main { max-width: 39rem; margin: 12vh auto; padding: 1.5rem; }
+    h1 { line-height: 1.1; }
+    label { display: grid; gap: .3rem; font-weight: 650; }
+    input, button { font: inherit; padding: .55rem .8rem; }
+    input { min-width: 0; border: 1px solid #5b706e; background: #fff; }
+    button { margin-top: .8rem; background: #192d31; color: white; border: 1px solid #192d31; cursor: pointer; }
+    :focus-visible { outline: 3px solid #286553; outline-offset: 3px; }
+    #vista-museo { position: fixed; inset: 0; z-index: 1; background: #111c23; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Probar el portal del museo</h1>
+    <p>Indica la dirección del museo para abrir el álbum como lo haría la puerta del campus.</p>
+    <form id="puerta">
+      <label>Dirección del museo <input name="museo" type="url" placeholder="https://museo.example.org/" required></label>
+      <button type="submit">Abrir el museo</button>
+      <p id="estado" role="status"></p>
+    </form>
+  </main>
+  <div id="vista-museo" hidden></div>
+  <script type="module">
+    import { abrirMuseo } from './campus-portal.js';
+
+    const puerta = document.getElementById('puerta');
+    const vista = document.getElementById('vista-museo');
+    const estado = document.getElementById('estado');
+
+    puerta.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!vista.hidden) return;
+      estado.textContent = '';
+      vista.hidden = false;
+      try {
+        abrirMuseo({
+          contenedor: vista,
+          urlMuseo: new FormData(puerta).get('museo'),
+          entrar: false,
+          alCerrar() {
+            vista.hidden = true;
+            estado.textContent = 'Has regresado a la puerta del museo.';
+          },
+        });
+      } catch (error) {
+        vista.hidden = true;
+        estado.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>
