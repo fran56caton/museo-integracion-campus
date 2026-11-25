@@ -1,0 +1,3 @@
+* text=auto eol=lf
+dist/spatial.js -whitespace linguist-generated=true
+dist/spatial.js.LEGAL.txt linguist-generated=true

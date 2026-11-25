@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bandeja de aportes · Matemática y Física</title>
+  <script defer src="bandeja.js"></script>
+  <style>
+    :root{color:#26231d;background:#ede8dd;font:1rem/1.5 system-ui,sans-serif;accent-color:#923825}
+    *,*::before,*::after{box-sizing:border-box}
+    [hidden]{display:none!important}
+    body{margin:0}
+    main{width:min(1050px,100% - 36px);margin:0 auto;padding:38px 0 66px}
+    header{border-bottom:1px solid #b3a790;padding:0 0 25px;margin-bottom:23px}
+    h1,h2,h3{font-family:Georgia,serif;font-weight:400;line-height:1.1;margin:0 0 13px}
+    h1{font-size:clamp(2.35rem,6vw,4.25rem)}
+    h2{font-size:1.8rem}
+    h3{font-size:1.45rem}
+    p{margin:8px 0;overflow-wrap:break-word}
+    label{display:grid;gap:4px;font-weight:650;min-width:0}
+    input,textarea,select,button{font:inherit;max-width:100%}
+    input,textarea,select{min-height:44px;border:1px solid #847a66;color:inherit;background:#fffaf0;padding:7px 8px;border-radius:0}
+    input[type=file]{height:auto;inline-size:100%}
+    button{min-height:44px;padding:7px 13px;border:1px solid #847a66;background:#faf1df;color:inherit;cursor:pointer;font-weight:650}
+    button:disabled{opacity:.55;cursor:wait}
+    .primary{background:#923825;border-color:#923825;color:white}
+    .primary:hover{background:#76301d}
+    button:not(.primary):hover{background:#e7d7bf}
+    :focus-visible{outline:3px solid #923825;outline-offset:3px}
+    form{display:grid;gap:11px}
+    .import{display:grid;grid-template-columns:1fr 1.3fr auto;align-items:end;gap:12px}
+    [role=status]{min-height:1.5em}
+    .toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:16px 0 10px;border-top:1px solid #b3a790;margin-top:12px}
+    .toolbar h2{margin:0}
+    .tabs{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 16px}
+    .tabs button[aria-pressed=true]{background:#302b22;color:#fff8e7;border-color:#302b22}
+    article{background:#f9f2e5;border:1px solid #b3a790;margin:0 0 15px;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1fr);gap:20px;padding:17px}
+    article img{display:block;width:100%;max-height:370px;object-fit:contain;background:#d8ceba}
+    .meta,.caption{font-size:.88rem;color:#514938}
+    .caption{padding:7px 10px;border:1px solid #c0b092}
+    .actions{display:flex;gap:7px;flex-wrap:wrap}
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .confirm{display:flex;align-items:start;gap:7px;font-size:.9rem}
+    .confirm input{min-height:0;margin-top:.35em}
+    .bulk{padding:16px;margin-bottom:18px;border:1px solid #a9977a;background:#f6eddc}
+    .pick{margin:10px 0;background:#eee0c6;padding:7px 8px}
+    .comparison{margin-top:12px;padding:8px 10px;border:1px solid #a9977a}
+    .comparison summary{min-height:38px;cursor:pointer;align-content:center;font-weight:650}
+    .comparison img{max-height:230px}
+    .empty{padding:25px 16px;border:1px dashed #8f8064}
+    @media(max-width:680px){main{padding-top:24px}.import,article,.fields{grid-template-columns:1fr}.toolbar{align-items:flex-start}}
+  </style>
+</head>
+<body>
+<main>
+  <header><h1>Bandeja de aportes</h1><p>Matemática y Física · Revisa las fotos de la carrera antes de incorporarlas al museo.</p></header>
+  <section aria-labelledby="import-title">
+    <h2 id="import-title">Añadir fotos</h2>
+    <form id="import" class="import">
+      <label>Fotos o ZIP de WhatsApp<input id="files" type="file" accept="image/jpeg,image/png,image/webp,.zip" multiple required></label>
+      <label>Pie de foto para todo el lote (opcional)<input id="caption" type="text" maxlength="500" placeholder="Ej. #futbol · Olimpiadas de la facultad"></label>
+      <button class="primary">Enviar a revisión</button>
+    </form>
+    <p class="meta">Para que la bandeja use los pies de foto de una exportación, deja vacío el campo opcional.</p>
+    <p id="import-status" role="status"></p>
+  </section>
+  <section aria-labelledby="queue-title">
+    <div class="toolbar"><h2 id="queue-title">Aportes recibidos</h2><button id="refresh" type="button">Actualizar</button></div>
+    <div id="tabs" class="tabs" role="group" aria-label="Estado de los aportes">
+      <button type="button" data-state="pending" aria-pressed="true">Por revisar</button>
+      <button type="button" data-state="approved" aria-pressed="false">En el museo</button>
+    </div>
+    <p id="status" role="status"></p>
+    <form id="bulk" class="bulk" hidden>
+      <h3 id="bulk-count">Publicar un lote</h3>
+      <div class="fields">
+        <label>Actividad del lote<select id="bulk-category" name="category" required></select></label>
+        <label>Fecha del evento (opcional)<input type="date" name="event_date"></label>
+        <label id="bulk-promotion-field" hidden>Año de la promoción<input id="bulk-promotion-year" name="promotion_year" inputmode="numeric" pattern="(19|20)[0-9]{2}" maxlength="4"></label>
+      </div>
+      <label>Título del evento<input name="title" required maxlength="110"></label>
+      <label>Descripción visual común<input name="alt" required maxlength="200"></label>
+      <label class="confirm"><input type="checkbox" name="permission" value="confirmed" required>Las fotos seleccionadas están autorizadas para aparecer en el museo.</label>
+      <button class="primary">Añadir el lote al museo</button>
+    </form>
+    <div id="queue"></div>
+  </section>
+</main>
+</body>
+</html>

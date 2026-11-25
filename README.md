@@ -1,8 +1,34 @@
-# Integrar el museo de Matemática y Física en un campus
+# Museo de Matemática y Física
 
-Este módulo abre el museo de Matemática y Física desde una puerta, biblioteca u otro punto del campus virtual. Al cerrar la visita, vuelve a la escena del campus y recupera el foco del elemento que la abrió.
+Este es el repositorio público de la aplicación completa del museo. Incluye la galería web y el recorrido 3D, la bandeja de aportes, el servidor de archivo y la integración con el campus.
 
-## Uso
+- [Código completo del museo](./museo/)
+- [Conector para el campus](./campus-portal.js)
+- [Ejemplo de integración](./ejemplo.html)
+- [Documentación del servidor y del despliegue](./museo/README.md)
+
+## Probar la aplicación completa
+
+Desde la raíz del repositorio, con Python 3.12 o posterior:
+
+```sh
+cd museo
+python -m pip install -r aportes/requirements.txt
+python aportes/servidor.py
+```
+
+Abre [el museo local](http://127.0.0.1:8752/), [la entrada del campus](http://127.0.0.1:8752/?modo=campus) o [la bandeja de edición](http://127.0.0.1:8753/). Esta copia pública incluye imágenes y videos de demostración. El servidor inicializa la base local para los aportes que importes.
+
+Para recompilar las escenas después de modificar el código JavaScript, ejecuta esto en el directorio del museo:
+
+```sh
+npm ci
+npm run build
+```
+
+Los recursos de demostración ya vienen en la copia pública. Puedes regenerar los que falten ejecutando `python generar_demo.py` con Pillow y FFmpeg instalados. El script conserva los archivos que ya existan.
+
+## Incorporar el museo al campus
 
 1. Copia [campus-portal.js](./campus-portal.js) al proyecto del campus.
 2. Configura una URL del museo accesible desde el campus. En producción, usa HTTPS en los dos sitios. El ejemplo también admite localhost para desarrollo.
@@ -36,7 +62,7 @@ Este módulo abre el museo de Matemática y Física desde una puerta, biblioteca
 </script>
 ```
 
-Sustituye la URL de ejemplo por la del museo. Si el campus está en línea, la dirección del museo también debe poder abrirse desde los equipos de los estudiantes.
+Sustituye la URL de ejemplo por la del museo. Para mostrar el archivo real en el campus, usa la URL completa de acceso de Vercel que te comparta el responsable del museo. La visita alojada se publica en modo de consulta. La bandeja local permite preparar nuevas fotos para la siguiente publicación.
 
 - `entrar: false` abre el álbum con la portada, las actividades y el archivo.
 - `entrar: true` abre el recorrido de inmediato. Puedes indicar una `sala` (`promociones`, `tradiciones`, `universidad` o `campo`) o una `pieza` como `congreso`. Si se indica una pieza válida, esta determina la sala.

@@ -1,0 +1,7 @@
+.openai/
+node_modules/
+.DS_Store
+*.log
+.museo-data/
+.env
+__pycache__/

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#111c23">
+  <meta name="description" content="Recorre las promociones, tradiciones y experiencias de Matemática y Física de la UNHEVAL.">
+  <title>Matemática y Física</title>
+  <link rel="icon" href="media/logo-escuela.webp" type="image/webp">
+  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="exposicion.css?v=6">
+  <link rel="stylesheet" href="galeria.css?v=8">
+  <link rel="stylesheet" href="campus.css?v=2">
+  <script defer src="catalogo.js"></script>
+  <script defer src="aportes.js"></script>
+  <script defer src="campus.js?v=2"></script>
+  <script defer src="campus-album.js?v=1"></script>
+  <script defer src="museo.js?v=10"></script>
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="masthead" id="inicio">
+    <a class="brand" href="#inicio" aria-label="Matemática y Física, inicio">
+      <span class="marks"><img src="media/logo-unheval.webp" alt="Escudo de la UNHEVAL" width="39" height="44"><img src="media/logo-escuela.webp" alt="Emblema de Matemática y Física" width="37" height="46"></span>
+      <span><strong>UNHEVAL</strong><small>Huánuco, Perú</small></span>
+    </a>
+    <nav aria-label="Navegación principal"><a href="#salas">Salas</a><a href="#promociones">Promociones</a><a href="#archivo">Archivo</a></nav>
+  </header>
+  <main id="entrada-campus" class="campus-entry" aria-labelledby="campus-title" tabindex="-1" hidden>
+    <header class="campus-masthead">
+      <a class="campus-back" id="campus-back" href="./"><span class="icon-arrow" aria-hidden="true"></span><span id="campus-back-label">Volver al museo</span></a>
+      <nav class="campus-index" aria-label="Secciones del álbum">
+        <a href="#campus-actividades">Actividades</a><a href="#promociones">Promociones</a><a href="#archivo">Archivo</a>
+      </nav>
+      <div class="campus-unheval">
+        <img src="media/logo-unheval.webp" width="32" height="36" alt="">
+        <img src="media/logo-escuela.webp" width="30" height="36" alt="">
+        <span>UNHEVAL · Huánuco</span>
+      </div>
+    </header>
+    <section class="campus-album" aria-label="Recuerdos destacados">
+      <div id="campus-stage" class="campus-stage" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Fotografías destacadas de la carrera" aria-describedby="campus-controls-help">
+        <div id="campus-images" class="campus-images"><img id="campus-opening-photo" src="media/danza.webp" alt="" fetchpriority="high" draggable="false"></div>
+        <div class="campus-stage-content">
+          <div class="campus-welcome-copy">
+            <h1 id="campus-title">Lo que <em>vivimos</em></h1>
+            <p>El álbum de Matemática y Física</p>
+            <div class="campus-welcome-actions">
+              <button type="button" class="primary" id="campus-enter">Entrar a la galería 3D <span class="icon-arrow" aria-hidden="true"></span></button>
+              <a class="campus-text-link" href="#campus-actividades">Explorar recuerdos <span class="icon-arrow" aria-hidden="true"></span></a>
+            </div>
+          </div>
+          <div class="campus-caption">
+            <div aria-live="polite" aria-atomic="true">
+              <span id="campus-hero-category">Danza</span>
+              <h2 id="campus-hero-title">Danza de los docentes</h2>
+            </div>
+            <button type="button" id="campus-hero-open" class="outline">Ver foto completa <span class="icon-arrow" aria-hidden="true"></span></button>
+          </div>
+        </div>
+      </div>
+      <div class="campus-contact">
+        <button class="arrow-control previous" type="button" id="campus-slide-prev" aria-label="Recuerdo destacado anterior" aria-controls="campus-stage"><span class="icon-arrow" aria-hidden="true"></span></button>
+        <div id="campus-filmstrip" class="campus-filmstrip" role="group" aria-label="Elegir recuerdo destacado"></div>
+        <button class="arrow-control" type="button" id="campus-slide-next" aria-label="Siguiente recuerdo destacado" aria-controls="campus-stage"><span class="icon-arrow" aria-hidden="true"></span></button>
+        <p class="campus-slide-status" id="campus-slide-status" role="status"></p>
+        <p id="campus-controls-help" class="visually-hidden">Desliza o usa las flechas para cambiar de recuerdo. Pulsa Ver foto completa para abrir su ficha.</p>
+      </div>
+    </section>
+    <section class="campus-activities" id="campus-actividades" aria-labelledby="campus-activities-title">
+      <div class="campus-wrap">
+        <div class="campus-section-head">
+          <div><h2 id="campus-activities-title">Recuerdos por actividad</h2><p>Encuentra las danzas, desfiles, encuentros y celebraciones de la carrera.</p></div>
+          <a href="#archivo" class="outline" id="campus-all-archive">Todo el archivo <span class="icon-arrow" aria-hidden="true"></span></a>
+        </div>
+        <div id="campus-activity-grid" class="campus-activity-grid"></div>
+        <details class="campus-more-activities" id="campus-more-activities" hidden>
+          <summary>Más actividades</summary>
+          <div id="campus-activity-index" class="campus-activity-index"></div>
+        </details>
+      </div>
+    </section>
+    <nav class="campus-rooms-wrap" aria-label="Recorrido por salas">
+      <div class="campus-wrap">
+        <h2>Recorrido por salas</h2>
+        <div id="campus-rooms" class="campus-rooms"></div>
+      </div>
+    </nav>
+    <div id="campus-collections"></div>
+    <div class="campus-bottom">
+      <div class="campus-wrap"><span>Museo de Matemática y Física · UNHEVAL</span><a href="#entrada-campus">Volver arriba <span class="icon-arrow" aria-hidden="true"></span></a></div>
+    </div>
+  </main>
+  <main id="contenido" tabindex="-1">
+    <section class="gallery-intro" aria-labelledby="titulo">
+      <div class="exhibition-heading">
+        <div>
+          <h1 id="titulo">Matemática <em>y Física</em></h1>
+          <p>Museo de la Escuela Profesional · UNHEVAL, Huánuco</p>
+        </div>
+        <div class="exhibition-actions">
+          <button class="primary" type="button" data-entrance>Entrar a la sala <span class="icon-arrow" aria-hidden="true"></span></button>
+          <button class="outline" type="button" data-guide>Visita guiada</button>
+        </div>
+      </div>
+      <div class="exhibition-stage">
+        <div id="exhibition" class="exhibition" role="region" aria-roledescription="carrusel" aria-label="Fotografías destacadas" aria-describedby="exhibition-help" tabindex="0">
+          <div id="exhibition-prints" class="exhibition-prints">
+            <button type="button" class="exhibit-print" data-exhibit="0" data-distance="0" aria-label="Abrir Desfile de Matemática y Física">
+              <img src="media/desfile.webp" alt="Delegación de Matemática y Física con su estandarte durante un desfile" fetchpriority="high" draggable="false">
+            </button>
+          </div>
+        </div>
+        <div class="stage-arrows" role="group" aria-label="Cambiar fotografía">
+          <button class="arrow-control previous" type="button" id="hero-prev" aria-label="Fotografía destacada anterior" aria-controls="exhibition"><span class="icon-arrow" aria-hidden="true"></span></button>
+          <button class="arrow-control" type="button" id="hero-next" aria-label="Siguiente fotografía destacada" aria-controls="exhibition"><span class="icon-arrow" aria-hidden="true"></span></button>
+        </div>
+      </div>
+      <div class="exhibition-console">
+        <div class="exhibition-label">
+          <div aria-live="polite" aria-atomic="true">
+            <span id="hero-category" class="mono">Desfiles</span>
+            <h2 id="hero-title">Desfile de Matemática y Física</h2>
+          </div>
+          <button type="button" class="text-action" id="hero-open">Ver fotografía <span class="icon-arrow" aria-hidden="true"></span></button>
+        </div>
+        <div id="hero-reel" class="hero-reel" role="group" aria-label="Elegir fotografía destacada"></div>
+        <div class="exhibition-position">
+          <span id="hero-count" class="mono">01 / 07</span>
+          <div id="hero-progress" class="hero-progress" aria-hidden="true"></div>
+        </div>
+        <button type="button" class="hero-play" id="hero-play" aria-pressed="false" aria-label="Reproducción automática" title="Reproducción automática"><span aria-hidden="true"></span></button>
+        <p id="exhibition-help" class="visually-hidden">Desliza o usa las flechas para cambiar de fotografía. Pulsa la foto central para ver su ficha.</p>
+      </div>
+    </section>
+    <section class="timeline" id="promociones" aria-labelledby="timeline-title">
+      <div class="section-wrap timeline-inner">
+        <div class="timeline-intro">
+          <div><h2 id="timeline-title">Encuentra tu promoción</h2><p>Elige tu año para abrir su cuadro en la galería.</p></div>
+          <div class="rail-arrows" role="group" aria-label="Recorrer años de promoción">
+            <button class="arrow-control previous" type="button" id="year-prev" aria-label="Ver años anteriores" aria-controls="year-list"><span class="icon-arrow" aria-hidden="true"></span></button>
+            <button class="arrow-control" type="button" id="year-next" aria-label="Ver años siguientes" aria-controls="year-list"><span class="icon-arrow" aria-hidden="true"></span></button>
+          </div>
+        </div>
+        <div class="year-list" id="year-list" aria-label="Años de promoción"></div>
+      </div>
+    </section>
+    <section class="rooms section-wrap" id="salas" aria-labelledby="salas-titulo">
+      <div class="section-head"><h2 id="salas-titulo">Elige una sala</h2><p>Arrastra para recorrer la sala, o elige un cuadro con las flechas y ábrelo para ver su historia.</p></div>
+      <div id="room-list" class="room-list"></div>
+      <div class="campus-teaser"><p>Entra directamente a las salas del museo.</p><a class="outline" href="?modo=campus">Abrir entrada del campus <span class="icon-arrow" aria-hidden="true"></span></a></div>
+    </section>
+    <section class="features" id="historias" aria-labelledby="historias-titulo">
+      <div class="section-wrap">
+        <div class="section-head">
+          <div><h2 id="historias-titulo">Historias en imágenes</h2><p>De las calles de Huánuco a los encuentros académicos y deportivos.</p></div>
+          <a class="outline" href="#archivo">Explorar el archivo <span class="icon-arrow" aria-hidden="true"></span></a>
+        </div>
+        <div class="feature-grid" id="feature-grid"></div>
+      </div>
+    </section>
+    <section id="archivo" class="archive section-wrap" aria-labelledby="archivo-titulo">
+      <div class="section-head"><h2 id="archivo-titulo" tabindex="-1">El archivo</h2><p>Busca fotografías y videos por año, actividad o lugar.</p></div>
+      <div class="filters">
+        <div class="field search-field"><label for="search">Buscar un recuerdo</label><input id="search" type="search" placeholder="Ej. 1992, desfile, Huancayo" autocomplete="off"></div>
+        <div class="field"><label for="collection">Colección</label><select id="collection"></select></div>
+        <div class="field"><label for="format">Formato</label><select id="format"><option value="">Todos</option><option value="foto">Fotografías</option><option value="video">Videos</option></select></div>
+      </div>
+      <div class="results-bar"><p id="results-count" aria-live="polite"></p><div class="archive-actions"><button type="button" id="saved-only" aria-pressed="false">Mi selección <span id="saved-count">0</span></button><button type="button" id="clear-filters" hidden>Limpiar filtros</button></div></div>
+      <div class="archive-grid" id="archive-grid"></div>
+      <button type="button" id="more" class="outline load-more" hidden>Cargar más recuerdos <span aria-hidden="true">↓</span></button>
+    </section>
+  </main>
+  <footer><div><strong>Matemática y Física</strong><p>Universidad Nacional Hermilio Valdizán · Facultad de Ciencias de la Educación</p></div><a href="#inicio">Volver al inicio ↑</a></footer>
+  <dialog id="tour" class="tour" aria-labelledby="tour-room-title">
+    <header class="tour-header">
+      <div><h2 id="tour-room-title"></h2><p id="tour-mode">Galería interactiva</p></div>
+      <div class="tour-actions">
+        <button type="button" id="tour-overview" aria-pressed="false" aria-label="Vista general de la sala" title="Vista general de la sala"><span class="view-icon" aria-hidden="true"></span><span class="tour-action-label">Vista general</span></button>
+        <button type="button" id="tour-motion" aria-pressed="false" aria-label="Reducir movimiento" title="Reducir movimiento"><span class="motion-icon" aria-hidden="true"></span><span class="tour-action-label">Reducir movimiento</span></button>
+        <button type="button" id="tour-close" aria-label="Salir del recorrido"><span class="tour-action-label">Salir</span><span aria-hidden="true">×</span></button>
+      </div>
+    </header>
+    <div class="tour-body">
+      <div class="viewport" id="room-viewport" tabindex="0" role="region" aria-label="Galería interactiva" aria-describedby="tour-help">
+        <div class="campus-doors" aria-hidden="true"></div>
+        <div class="scene"><div class="camera" id="camera"><div class="architecture">
+          <div class="surface back"><div class="wall-light"></div><div class="wall-rail" id="wall-rail"></div></div>
+          <div class="surface left-wall"></div><div class="surface right-wall"></div><div class="surface floor"></div><div class="surface ceiling"></div>
+        </div></div></div>
+      </div>
+      <aside id="tour-map" class="tour-map" aria-label="Navegación del museo">
+        <div id="tour-map-content"><h3>Mapa de salas</h3><div id="tour-room-list"></div><p id="tour-help">Desliza para caminar por la sala. Toca un cuadro para acercarte y vuelve a tocarlo para abrir su ficha. También puedes usar las flechas y Enter.</p><button type="button" data-guide>Iniciar visita guiada <span class="icon-arrow" aria-hidden="true"></span></button></div>
+        <section id="guide-panel" aria-label="Visita guiada" hidden>
+          <p id="guide-position" class="mono" aria-live="polite"></p><h3 id="guide-title"></h3><p id="guide-note"></p>
+          <div class="guide-actions"><button type="button" id="guide-prev">Anterior</button><button type="button" id="guide-next">Siguiente</button></div>
+          <button type="button" id="guide-exit">Volver al mapa</button>
+        </section>
+      </aside>
+    </div>
+    <div class="tour-toolbar"><button type="button" id="frame-prev" class="arrow-control previous" aria-label="Cuadro anterior"><span class="icon-arrow" aria-hidden="true"></span></button><div class="frame-status" aria-live="polite"><span id="frame-position" class="mono"></span><strong id="frame-title"></strong></div><div class="tour-seek"><label for="frame-seek">Posición en la sala</label><input type="range" min="1" value="1" id="frame-seek"></div><button type="button" id="frame-next" class="arrow-control" aria-label="Siguiente cuadro"><span class="icon-arrow" aria-hidden="true"></span></button><button type="button" id="frame-open" class="primary">Abrir pieza <span class="icon-arrow" aria-hidden="true"></span></button></div>
+    <button type="button" id="tour-map-toggle" class="tour-map-toggle" aria-expanded="false" aria-controls="tour-map">Salas y visita guiada <span class="icon-arrow" aria-hidden="true"></span></button>
+    <div id="room-reel" class="room-reel" role="group" aria-label="Cuadros de la sala"></div>
+    <div id="tour-years" class="tour-years" hidden><p>Año de promoción</p><div id="tour-year-list" class="year-list" aria-label="Años de promoción"></div></div>
+  </dialog>
+  <dialog id="viewer" class="viewer" aria-labelledby="piece-title">
+    <header class="viewer-header"><p class="kicker" id="piece-room"></p><button type="button" id="piece-close" aria-label="Cerrar ficha">Cerrar <span aria-hidden="true">×</span></button></header>
+    <div class="viewer-layout">
+      <div class="viewer-stage">
+        <div id="piece-media" class="piece-media"></div>
+        <div class="viewer-arrows" role="group" aria-label="Navegar entre piezas">
+          <button type="button" id="piece-prev" class="arrow-control previous" aria-label="Pieza anterior"><span class="icon-arrow" aria-hidden="true"></span></button>
+          <button type="button" id="piece-next" class="arrow-control" aria-label="Siguiente pieza"><span class="icon-arrow" aria-hidden="true"></span></button>
+        </div>
+      </div>
+      <div class="piece-info"><p class="mono" id="piece-position"></p><h2 id="piece-title" aria-live="polite"></h2><time id="piece-date" hidden></time><p id="piece-description"></p>
+        <section id="piece-detail" class="piece-detail" aria-label="Detalle de la pieza" hidden><button id="detail-toggle" type="button" aria-expanded="false" aria-controls="detail-note"></button><p id="detail-note" hidden></p></section>
+        <div id="piece-story" class="piece-story" aria-label="Fotos de los docentes campeones" hidden></div>
+        <a id="piece-source"></a>
+        <div class="viewer-actions"><button type="button" id="piece-zoom" aria-pressed="false">Ampliar foto</button><button type="button" id="piece-save" aria-pressed="false">Guardar recuerdo</button><button type="button" id="piece-share">Copiar enlace</button></div>
+        <p id="share-status" role="status"></p><label id="share-address" hidden>Enlace de la pieza <input id="piece-url" type="url" readonly></label>
+      </div>
+    </div>
+  </dialog>
+  <noscript><p class="no-script">Activa JavaScript para abrir el recorrido y consultar el archivo.</p></noscript>
+</body>
+</html>
