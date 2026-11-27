@@ -4,6 +4,7 @@ import argparse
 from contextlib import closing
 import hashlib
 import json
+import re
 from pathlib import Path
 import secrets
 import shutil
@@ -21,7 +22,7 @@ def write_json(path, value):
     path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
 
 
-def archive_for_deployment(source, dest):
+def archive_for_deployment(source, dest, site):
     with TemporaryDirectory(dir=DATA) as temp:
         copy = Path(temp) / "snapshot.sqlite3"
         with closing(sqlite3.connect(source.as_uri() + "?mode=ro", uri=True)) as original:
@@ -30,12 +31,22 @@ def archive_for_deployment(source, dest):
         catalog = Archive(copy).catalog()
         with closing(sqlite3.connect(copy)) as snapshot:
             photos = snapshot.execute("SELECT id, image, thumb FROM submissions WHERE state='approved'").fetchall()
+            videos = snapshot.execute("SELECT id FROM published_videos").fetchall()
+        if videos:
+            recent = site / "recientes"
+            recent.mkdir()
+            for (video_id,) in videos:
+                if not re.fullmatch(r"[a-z0-9-]{1,110}", video_id):
+                    raise ValueError("El ID del video no es válido para la publicación.")
+                for suffix in (".mp4", ".webp", "-mini.webp"):
+                    name = video_id + suffix
+                    shutil.copyfile(ROOT / "dist" / "recientes" / name, recent / name)
         with closing(sqlite3.connect(dest)) as output, output:
             output.execute("CREATE TABLE catalog (id INTEGER PRIMARY KEY, body BLOB NOT NULL)")
             output.execute("CREATE TABLE photos (id TEXT PRIMARY KEY, image BLOB NOT NULL, thumb BLOB NOT NULL)")
             output.execute("INSERT INTO catalog (id, body) VALUES (1, ?)", (catalog,))
             output.executemany("INSERT INTO photos VALUES (?, ?, ?)", photos)
-    return len(photos)
+    return len(photos), len(videos)
 
 
 def main():
@@ -57,10 +68,11 @@ def main():
         output = Path(temp) / "output"
         function = output / "functions" / "archive.func"
         function.mkdir(parents=True)
-        shutil.copytree(ROOT / "dist", function / "site")
+        site = function / "site"
+        shutil.copytree(ROOT / "dist", site, ignore=shutil.ignore_patterns("recientes"))
         shutil.copyfile(ROOT / "aportes/vercel_archive.cjs", function / "index.cjs")
         (function / "access.sha256").write_text(hashlib.sha256(key.encode("ascii")).hexdigest(), encoding="ascii")
-        count = archive_for_deployment(source, function / "archive.sqlite3")
+        photos, videos = archive_for_deployment(source, function / "archive.sqlite3", site)
         write_json(function / ".vc-config.json", {
             "runtime": "nodejs24.x",
             "handler": "index.cjs",
@@ -84,7 +96,7 @@ def main():
             if previous.exists():
                 shutil.move(previous, old)
             raise
-    print(f"{count} aportes aprobados empaquetados para Vercel.")
+    print(f"{photos} fotos y {videos} videos aprobados empaquetados para Vercel.")
     print(f"Directorio: {build.parent}")
 
 

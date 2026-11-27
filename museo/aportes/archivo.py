@@ -23,6 +23,7 @@ CATEGORIES = {
     "aniversario-facultad": ("Aniversario de la facultad", "tradiciones", r"\baniversario\b.{0,80}\bfacultad\b"),
     "aniversario-carrera": ("Aniversario de la carrera", "tradiciones", r"\baniversario\b.{0,80}\b(?:carrera|matematica y fisica)\b"),
     "cachimbeada": ("Cachimbeada", "tradiciones", r"\b(?:cachimbeada|cachimbos|bienvenida a ingresantes)\b"),
+    "pillco-mozo": ("Pillco Mozo", "campo", r"\bpillco\s+mozo\b"),
     "congreso": ("Congresos", "universidad", r"\b(?:congreso|congresos)\b"),
     "voley": ("Vóley", "universidad", r"\b(?:voley|voleibol|volleyball)\b"),
     "balonmano": ("Balonmano", "universidad", r"\bbalonmano\b"),
@@ -114,6 +115,10 @@ class Archive:
                 state TEXT NOT NULL DEFAULT 'pending', title TEXT, detail TEXT, alt TEXT, event_date TEXT,
                 received_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, published_at TEXT,
                 fingerprint TEXT, possible_duplicate TEXT, promotion_year INTEGER
+            )""")
+            db.execute("""CREATE TABLE IF NOT EXISTS published_videos (
+                id TEXT PRIMARY KEY, category TEXT NOT NULL, title TEXT NOT NULL, detail TEXT NOT NULL,
+                alt TEXT NOT NULL, event_date TEXT, published_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )""")
             columns = {row["name"] for row in db.execute("PRAGMA table_info(submissions)")}
             for name in ("fingerprint", "possible_duplicate"):
@@ -207,19 +212,24 @@ class Archive:
 
     def catalog(self):
         with self.database() as db:
-            rows = db.execute("""SELECT id, category, title, detail, alt, event_date, promotion_year, channel FROM submissions
-                                 WHERE state='approved'
-                                 ORDER BY category, event_date DESC, title COLLATE NOCASE, id""").fetchall()
+            rows = db.execute("""SELECT id, category, title, detail, alt, event_date, promotion_year, channel,
+                                        published_at, 0 AS is_video FROM submissions WHERE state='approved'
+                                 UNION ALL
+                                 SELECT id, category, title, detail, alt, event_date, NULL,
+                                        'Archivo histórico de la carrera', published_at, 1 FROM published_videos
+                                 ORDER BY published_at DESC, event_date DESC, category, title COLLATE NOCASE, id""").fetchall()
         entries = []
         for row in rows:
             label, room, _ = CATEGORIES[row["category"]]
             key = row["id"]
             day = row["event_date"]
+            folder = "recientes" if row["is_video"] else "aportes"
             entries.append({
                 "id": key, "room": room, "collection": label, "title": row["title"],
                 "description": row["detail"], "alt": row["alt"],
                 "source": "Archivo histórico de la carrera" if row["channel"] == "Archivo histórico de la carrera" else "Aporte de la comunidad",
                 "url": None, "year": row["promotion_year"] or (int(day[:4]) if day else None), "eventDate": day,
-                "thumb": f"aportes/{key}-mini.webp", "image": f"aportes/{key}.webp", "video": None,
+                "thumb": f"{folder}/{key}-mini.webp", "image": f"{folder}/{key}.webp",
+                "video": f"{folder}/{key}.mp4" if row["is_video"] else None,
             })
         return ("window.MUSEUM_APORTES = " + json.dumps(entries, ensure_ascii=True) + ";\n").encode()

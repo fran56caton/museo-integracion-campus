@@ -5,3 +5,4 @@ node_modules/
 .museo-data/
 .env
 __pycache__/
+/dist/recientes/

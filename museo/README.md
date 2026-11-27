@@ -141,7 +141,7 @@ El módulo verifica la ventana emisora y su origen. La integración solo interca
 
 ## Actualizar el museo alojado en Vercel
 
-La visita en Vercel consulta una copia de solo lectura de las fichas aprobadas. La bandeja se usa en la computadora para aprobar nuevas fotos. Tras los cambios, vuelve a preparar y desplegar la visita.
+La visita en Vercel consulta una copia de solo lectura de las fichas aprobadas. El catálogo incluye los videos de la tabla local `published_videos`. Cada video usa su ID como nombre para el MP4, el póster WebP y la miniatura `-mini.webp` en `dist/recientes/`. Conserva esa carpeta y la base local al preparar otra publicación. La bandeja se usa en la computadora para aprobar nuevas fotos. Tras los cambios, vuelve a preparar y desplegar la visita.
 
 ```powershell
 python aportes/preparar_vercel.py
